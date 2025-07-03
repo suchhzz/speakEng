@@ -13,3 +13,20 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Chatroom {
+  id          Int     @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @default(now())
+  messages    Message[]
+}
+
+model Message {
+  id          Int     @id @default(autoincrement())
+  message     String
+  isUser      Boolean
+  createdAt   DateTime  @default(now())
+
+  chatroom    Chatroom  @relation(fields: [chatroomId], references: [id])
+  chatroomId  Int
+}
